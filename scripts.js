@@ -1,22 +1,20 @@
-// store search data in var 
+
 var searchedData = []
 
-// var for root url
 var rootUrl = 'https://api.openweathermap.org'
-// var for your apiKEy
+
 var apiKey = 'df3fb9934a7d8ebae97c6749b588071a'
 var searchBtn = document.querySelector("#search-button")
 var fiveDay = document.querySelector(".five-day")
 var searchInput = document.querySelector("#search-input")
 
 
-// get timezone plugin and initialise it here
 var now = dayjs('2019-01-25').toDate()
 
 
 function search(city) {
   fetch(
-    // Current forecast query URL
+ 
     `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
   )
     .then(function (response) {
@@ -30,7 +28,7 @@ function search(city) {
       var iconCode = data.weather[0].icon;
       var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`;
 
-      // Appending new section for current forecast
+     
       var currentCity = $(`
             <h2 id="currentCity">
                 ${data.name} ${now}} <img src="${iconURL}" alt="${data.weather[0].description}" />
@@ -44,38 +42,8 @@ function search(city) {
 
       var lat = data.coord.lat;
       var lon = data.coord.lon;
-
-      fetch(
-        // Query for UV indicator
-        `https://api.openweathermap.org/data/2.5/uvi?lat=${lat}&lon=${lon}&appid=${apiKey}`
-      )
-        .then(function (response) {
-          return response.json();
-        })
-        .then(function (uvStat) {
-          console.log(uvStat);
-
-          var uvIndex = uvStat.value;
-          var uvIndexP = $(`
-                            <p>UV Index: 
-                                <span id="uvIndexColor" class="px-2 py-2 rounded">${uvIndex}</span>
-                            </p>
-                        `);
-
-          $("#city-info").append(uvIndexP);
-
-          // Appending UV data into current forecast
-          if (uvIndex < 3) {
-            $("#uvIndexColor").css("background-color", "green");
-          } else if (uvIndex < 6) {
-            $("#uvIndexColor").css("background-color", "yellow");
-          } else if (uvIndex < 8) {
-            $("#uvIndexColor").css("background-color", "orange");
-          } else if (uvIndex < 11) {
-            $("#uvIndexColor").css("background-color", "red");
-          } else {
-            $("#uvIndexColor").css("background-color", "grey");
-          }
+    })
+      
           fetch(
             //Query for 5 day forecast
             `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
