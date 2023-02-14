@@ -24,7 +24,7 @@ function search(city) {
       console.log(data.weather[0].icon, "here")
       $("#weather-results").css("display", "block");
       $("#city-info").empty();
-
+    
       var iconCode = data.weather[0].icon;
       var iconURL = `https://openweathermap.org/img/w/${iconCode}.png`;
 
@@ -38,12 +38,12 @@ function search(city) {
             <p>Wind Speed: ${data.wind.speed} KM/H</p>
         `);
 
-      $("#city-info").append(currentCity);
-
+      $("#city-info").append(currentCity)});
+    
       var lat = data.coord.lat;
       var lon = data.coord.lon;
-    })
-      
+
+    
           fetch(
             //Query for 5 day forecast
             `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
@@ -78,11 +78,7 @@ function search(city) {
                 $(".five-day").append(futureCard);
               }
             });
-        });
-    });
    
-    
-}
 
 
 
@@ -110,4 +106,4 @@ searchBtn.addEventListener("click", function (event) {
 $(document).on("click", "#searchHistory li", function() {
     var listCity = $(this).text();
     search(listCity);
-});
+})
